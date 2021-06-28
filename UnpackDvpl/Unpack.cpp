@@ -25,7 +25,7 @@ struct Sign {
   CompressLevel compress { CompressLevel::NoCompress };
   char magic[4]          { 'D', 'V', 'P', 'L' };
   
-  void loadFromRawData(QByteArray const& data) {
+  bool loadFromRawData(QByteArray const& data) {
     if (data.size() >= 20) {
       const char* sign = data.data() + data.size() - 20;
       *this = *reinterpret_cast<const Sign*>(sign);
@@ -37,6 +37,9 @@ struct Sign {
       sign.compress     = qToBigEndian(sign.compressSize);
 #endif
     }
+    
+    std::string DVPL = "DVPL";
+    return (std::equal(magic, magic + sizeof(magic), DVPL.begin()));
   }
   
   QByteArray toBytes() const {
@@ -57,7 +60,9 @@ namespace DVPL {
     }
     
     Sign sign;
-    sign.loadFromRawData(data);
+    if (!sign.loadFromRawData(data)) {
+      return {};
+    }
     
     QByteArray compress = data.mid(0, sign.compressSize);
     QByteArray decompress(sign.originSize, '\0');

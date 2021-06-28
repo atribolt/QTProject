@@ -1,7 +1,7 @@
 #ifndef CRC32
 #define CRC32
 
-#include <iostream>
+#include <cstdint>
 
 const std::uint32_t crc32_tab[256] = {
     0x00000000, 0x77073096, 0xee0e612c,

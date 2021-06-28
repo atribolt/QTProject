@@ -7,11 +7,17 @@ INCLUDEPATH += $${LIBPATH}/lz4/include
 LIBS += -L$${LIBPATH}/lz4/bin -lliblz4
 
 SOURCES += \
+    ActionDecode.cpp \
+    ActionEncode.cpp \
+    MassDvplTool.cpp \
     Unpack.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    ActionDecode.h \
+    ActionEncode.h \
+    MassDvplTool.h \
     Unpack.h \
     mainwindow.h
 

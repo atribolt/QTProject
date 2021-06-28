@@ -49,7 +49,7 @@
     <property name="title">
      <string>Тулзы</string>
     </property>
-    <addaction name="menu_UnpackPath"/>
+    <addaction name="menu_MassDvplTool"/>
    </widget>
    <addaction name="menuMain"/>
    <addaction name="menu"/>
@@ -82,7 +82,7 @@
     <string>Ctrl+Alt+S</string>
    </property>
   </action>
-  <action name="menu_UnpackPath">
+  <action name="menu_MassDvplTool">
    <property name="text">
     <string>Пакетная распаковка</string>
    </property>

@@ -8,7 +8,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
+class MainWindow final : public QMainWindow
 {
     Q_OBJECT
 
@@ -18,6 +18,7 @@ public:
 
     void UpdateTitle();
 private slots:
+    void massDvplTool();
     void on_menu_FileOpen_triggered();
     void on_menu_Save_triggered();
     void on_menu_SaveAss_triggered();

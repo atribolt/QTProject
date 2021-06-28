@@ -3,20 +3,18 @@
 #include "Unpack.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "MassDvplTool.h"
 
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent)
   , ui(new Ui::MainWindow)
 {
   ui->setupUi(this);
+  QObject::connect(ui->menu_MassDvplTool, &QAction::triggered, this, &MainWindow::massDvplTool);
 }
 
 MainWindow::~MainWindow() {
   delete ui;
-}
-
-void ShowError(const QString& message){
-  QMessageBox::critical(nullptr, QObject::tr("Ошибка"), message);
 }
 
 void MainWindow::on_menu_FileOpen_triggered() {
@@ -25,7 +23,7 @@ void MainWindow::on_menu_FileOpen_triggered() {
   
   DvplData dvpl;
   if (!dvpl.loadFromFile(_file)) {
-    ShowError("Файл не был загружен");
+    QMessageBox::critical(this, "Ошибка", "Файл не был загружен");
   }
   
   ui->textEdit->setText(dvpl.asData());
@@ -36,6 +34,13 @@ void MainWindow::UpdateTitle() {
     this->setWindowTitle(windowTitle + ": " + QFileInfo(_file).fileName());
   else
     this->setWindowTitle(windowTitle);
+}
+
+void MainWindow::massDvplTool() {
+  MassDvplTool* window = new MassDvplTool();
+  window->show();
+  
+  QObject::connect(window, &MassDvplTool::destroyed, window, &MassDvplTool::deleteLater);
 }
 
 void MainWindow::on_menu_Save_triggered()
@@ -67,14 +72,13 @@ void MainWindow::on_menu_Save_triggered()
     file.close();
   }
   else {
-    ShowError("Файл не был сохранен:" + file.errorString());
+    QMessageBox::critical(this, "Ошибка", "Файл не был сохранен:" + file.errorString());
   }
   
   UpdateTitle();
 }
 
-void MainWindow::on_menu_SaveAss_triggered()
-{
+void MainWindow::on_menu_SaveAss_triggered() {
   QString fileForSave = QFileDialog::getSaveFileName(this, "Сохранить как", QDir::homePath(), "DVPL (*.dvpl);;Txt (*.txt)");
   
   if (!fileForSave.isEmpty()) {
@@ -82,7 +86,7 @@ void MainWindow::on_menu_SaveAss_triggered()
     on_menu_Save_triggered();
   }
   else {
-    ShowError("Файл не был сохранен: 'Пустое имя файла'");
+    QMessageBox::critical(this, "Ошибка", "Файл не был сохранен: 'Пустое имя файла'");
   }
   
   UpdateTitle();
