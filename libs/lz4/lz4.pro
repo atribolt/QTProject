@@ -5,6 +5,8 @@ DESTDIR = $${PWD}/bin/
 
 message($$DESTDIR)
 
+INCLUDEPATH += include
+
 HEADERS += \
   include/lz4.h
   include/crc32.h
