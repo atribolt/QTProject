@@ -2,8 +2,9 @@
 #define CRC32
 
 #include <cstdint>
+#include <array>
 
-const std::uint32_t crc32_tab[256] = {
+const std::array<std::uint32_t, 256> crc32_table = {
     0x00000000, 0x77073096, 0xee0e612c,
     0x990951ba, 0x076dc419, 0x706af48f, 0xe963a535, 0x9e6495a3, 0x0edb8832,
     0x79dcb8a4, 0xe0d5e91e, 0x97d2d988, 0x09b64c2b, 0x7eb17cbd, 0xe7b82d07,
@@ -50,10 +51,11 @@ const std::uint32_t crc32_tab[256] = {
     0x2d02ef8d
 };
 
-std::uint32_t crc32_for_buffer(const char* data, std::uint32_t size) {
+constexpr std::uint32_t crc32_for_buffer(const char* data, std::uint32_t size) noexcept
+{
   std::uint32_t crc32 = 0xffffffff;
   for (std::uint32_t i = 0; i < size; ++i) {
-    crc32 = (crc32 >> 8) ^ crc32_tab[(crc32 ^ static_cast<uint8_t>(data[i])) & 0xff];
+    crc32 = (crc32 >> 8) ^ crc32_table[(crc32 ^ static_cast<uint8_t>(data[i])) & 0xff];
   }
   crc32 ^= 0xffffffff;
   return crc32;
